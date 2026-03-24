@@ -7,8 +7,13 @@
 <body>
 <script>
 lark.ready(() => {
-  lark.biz.contact.getUserInfo({
+
+  // fallback test (กันหน้าขาว)
+  document.body.innerHTML = "⏳ กำลังโหลด...";
+
+  lark.biz.user.get({
     success: (res) => {
+
       fetch("https://hook.us2.make.com/mamlx3cksk0x9hl3skdng3eyehbv41kc", {
         method: "POST",
         headers: {
@@ -18,14 +23,20 @@ lark.ready(() => {
           userId: res.userId,
           name: res.name
         })
-      }).then(() => {
+      })
+      .then(() => {
         document.body.innerHTML = "✅ Check-in สำเร็จ";
+      })
+      .catch(err => {
+        document.body.innerHTML = "❌ Fetch error: " + err;
       });
+
     },
     fail: (err) => {
-      document.body.innerHTML = "❌ Error: " + JSON.stringify(err);
+      document.body.innerHTML = "❌ Lark error: " + JSON.stringify(err);
     }
   });
+
 });
 </script>
 </body>
