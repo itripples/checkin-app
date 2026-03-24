@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <script src="https://lf1-cdn-tos.bytegoofy.com/goofy/lark/op/h5-js-sdk-1.5.0.js"></script>
+<meta charset="UTF-8">
+<script src="https://lf1-cdn-tos.bytegoofy.com/goofy/lark/op/h5-js-sdk-1.5.0.js"></script>
 </head>
 <body>
 <script>
 lark.ready(() => {
-  lark.biz.user.get({
+  lark.biz.contact.getUserInfo({
     success: (res) => {
       fetch("https://hook.us2.make.com/mamlx3cksk0x9hl3skdng3eyehbv41kc", {
         method: "POST",
@@ -21,6 +21,9 @@ lark.ready(() => {
       }).then(() => {
         document.body.innerHTML = "✅ Check-in สำเร็จ";
       });
+    },
+    fail: (err) => {
+      document.body.innerHTML = "❌ Error: " + JSON.stringify(err);
     }
   });
 });
