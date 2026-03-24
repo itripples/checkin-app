@@ -2,42 +2,54 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<script src="https://lf1-cdn-tos.bytegoofy.com/goofy/lark/op/h5-js-sdk-1.5.0.js"></script>
+<script src="https://sf1-cdn-tos.bytegoofy.com/goofy/lark/op/h5-js-sdk-1.6.5.js"></script>
 </head>
 <body>
 <script>
-lark.ready(() => {
 
-  // fallback test (กันหน้าขาว)
-  document.body.innerHTML = "⏳ กำลังโหลด...";
+document.body.innerHTML = "⏳ Loading...";
 
-  lark.biz.user.get({
-    success: (res) => {
+window.onload = () => {
 
-      fetch("https://hook.us2.make.com/mamlx3cksk0x9hl3skdng3eyehbv41kc", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          userId: res.userId,
-          name: res.name
+  if (typeof lark === "undefined") {
+    document.body.innerHTML = "❌ Lark SDK โหลดไม่สำเร็จ";
+    return;
+  }
+
+  lark.ready(() => {
+
+    document.body.innerHTML = "📲 กำลังดึงข้อมูลผู้ใช้...";
+
+    lark.biz.user.get({
+      success: (res) => {
+
+        fetch("https://hook.us2.make.com/mamlx3cksk0x9hl3skdng3eyehbv41kc", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            userId: res.userId,
+            name: res.name
+          })
         })
-      })
-      .then(() => {
-        document.body.innerHTML = "✅ Check-in สำเร็จ";
-      })
-      .catch(err => {
-        document.body.innerHTML = "❌ Fetch error: " + err;
-      });
+        .then(() => {
+          document.body.innerHTML = "✅ Check-in สำเร็จ";
+        })
+        .catch(err => {
+          document.body.innerHTML = "❌ Fetch error: " + err;
+        });
 
-    },
-    fail: (err) => {
-      document.body.innerHTML = "❌ Lark error: " + JSON.stringify(err);
-    }
+      },
+      fail: (err) => {
+        document.body.innerHTML = "❌ Lark error: " + JSON.stringify(err);
+      }
+    });
+
   });
 
-});
+};
+
 </script>
 </body>
 </html>
